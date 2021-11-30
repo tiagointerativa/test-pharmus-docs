@@ -1,0 +1,75 @@
+<div class="site-page-header-ghost-wrapper">
+    <nz-page-header style="margin-left: 0px; padding-left: 0px;" [nzGhost]="false">
+        <nz-page-header-title>Olá, Tiago Parente!</nz-page-header-title> <br>
+        <nz-page-header-subtitle>Seja bem vindo</nz-page-header-subtitle>
+        <nz-page-header-extra>
+            <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar Página</button>
+            <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização</button>
+        </nz-page-header-extra>
+    </nz-page-header>
+    <p style="margin-bottom: 40px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização.
+    </p>
+</div>
+
+<div nz-row>
+    <div nz-col nzMd="24" nzXs="24">
+        <nz-table #basicTable [nzLoading]="loading" [nzData]="listOfData">
+            <thead>
+                <tr>
+                    <th class="hide-lg">Dados da Autorização</th>
+                    <th class="hide-xs">Data da Venda</th>
+                    <th class="hide-xs">Nº da Autorização</th>
+                    <th class="hide-xs">Comprador</th>
+                    <th style="text-align: center;">Operação</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let data of basicTable.data">
+                    <td class="hide-xs">{{data.data_venda | date:'dd/MM/yyyy'}}</td>
+                    <td class="hide-xs">{{data.numero_autorizacao}}</td>
+                    <td class="hide-xs">{{data.comprador}}</td>
+                    <td class="hide-lg">
+                        {{ data.numero_autorizacao }} <br>
+                        <span style="color: gray"><i nz-icon nzType="calendar" class="icon" nzTheme="outline"></i>
+                            {{data.data_venda | date:'dd/MM/yyyy'}}</span> <br>
+                        <span style="color: gray"><i nz-icon nzType="user" class="icon" nzTheme="outline"></i>
+                            {{data.comprador}}</span>
+                    </td>
+                    <td style="text-align:center;">
+                        <button nz-button nzType="primary" (click)="scan(data.numero_autorizacao)">
+                            <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
+                            Digitalizar
+                        </button>
+                    </td>
+                </tr>
+            </tbody>
+        </nz-table>
+    </div>
+</div>
+
+<!-- Modal de digitalização -->
+<nz-modal [(nzVisible)]="isVisibleImportImages" nzWidth="860px" nzCentered="true" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="toggleModalImportImages()">
+    <ng-template #modalTitle>Digitalização</ng-template>
+
+    <ng-template #modalContent>
+        <app-import-images (done)="toggleModalImportImages()"></app-import-images>
+    </ng-template>
+</nz-modal>
+
+<!-- Modal de importação de autorizações (Manual)-->
+<nz-modal [(nzVisible)]="isVisibleImportAutorizacao" nzWidth="660px" [nzTitle]="modalTitleAutorizacao" [nzContent]="modalAutorizacao" [nzFooter]="null" nzCentered="true" (nzOnCancel)="toggleModalImportAutorizacao()">
+    <ng-template #modalTitleAutorizacao>Importação de Autorizações</ng-template>
+
+    <ng-template #modalAutorizacao>
+        <p style="font-size: 24px; text-align: center; margin-top: 0px; margin-bottom: 7px!important;z-index: 2222; position: relative;">Importação Manual de Autorizações</p>
+        <!--<img src="../../../assets/images/search_file.gif" style="max-width: 350px; display: block; margin: 0 auto; margin-top: -30px;" alt="">-->
+
+        <p style="text-align: center;">Você pode utilizar essa opção caso não tenha encontrado a autorização na listagem da tela inicial.</p>
+        <nz-input-group nzSearch nzSize="large" [nzAddOnAfter]="suffixButton">
+            <input type="text" nz-input [(ngModel)]="numAutorizacao" placeholder="Digite o número da autorização" />
+        </nz-input-group>
+        <ng-template #suffixButton>
+            <button nz-button nzType="primary" nzSize="large" [disabled]="numAutorizacao.length === 0" nzSearch (click)="scan(numAutorizacao)">Importar</button>
+        </ng-template>
+    </ng-template>
+</nz-modal>

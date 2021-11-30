@@ -1,0 +1,103 @@
+<div nz-row>
+    <div nz-col nzSpan="24">
+        <nz-steps [nzCurrent]="current" (nzIndexChange)="onIndexChange($event)">
+            <nz-step [nzTitle]="step01Template"></nz-step>
+            <nz-step [nzTitle]="step02Template"></nz-step>
+            <nz-step [nzTitle]="step03Template"></nz-step>
+            <nz-step [nzTitle]="step04Template"></nz-step>
+        </nz-steps>
+
+        <ng-template #step01Template>
+            <span class="hide-xs">Digitalização</span>
+            <span class="hide-lg"></span>
+        </ng-template>
+        <ng-template #step02Template>
+            <span class="hide-xs">Documento</span>
+            <span class="hide-lg"></span>
+        </ng-template>
+        <ng-template #step03Template>
+            <span class="hide-xs">Comprovante</span>
+            <span class="hide-lg"></span>
+        </ng-template>
+        <ng-template #step04Template>
+            <span class="hide-xs">Finalizado!</span>
+            <span class="hide-lg"></span>
+        </ng-template>
+    </div>
+    <!-- STEP 1 -->
+    <div nz-col nzSpan="24" *ngIf="current === 0" style="margin-bottom: 30px;">
+        <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação da Receita
+        </p>
+        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, clique na área abaixo e realize a importação.</p>
+        <div nz-col nzSpan="24">
+            <webcam [height]="400" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+            <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="receitaImage" [nzBeforeUpload]="beforeUploadReceita">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon nzType="inbox"></i>
+                </p>
+                <p class="ant-upload-text">Clique ou arraste a imagem para a area de upload</p>
+                <p class="ant-upload-hint">
+                    Realize a importação da receita
+                </p>
+            </nz-upload>
+        </div>
+
+    </div>
+    <!-- STEP 2 -->
+    <div nz-col nzSpan="24" *ngIf="current === 1" style="margin-bottom: 30px;">
+        <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Documento
+        </p>
+        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você realize a importação do documento, clique na área abaixo e realize a importação.</p>
+        <div nz-col nzSpan="24">
+            <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="documentoImage" [nzBeforeUpload]="beforeUploadDocumento">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon nzType="inbox"></i>
+                </p>
+                <p class="ant-upload-text">Clique ou arraste a imagem para a area de upload</p>
+                <p class="ant-upload-hint">
+                    Realize a importação do documento do comprador
+                </p>
+            </nz-upload>
+        </div>
+
+    </div>
+    <!-- STEP 3 -->
+    <div nz-col nzSpan="24" *ngIf="current === 2" style="margin-bottom: 30px;">
+        <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Comprovante
+        </p>
+        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você importe o comprovante, clique na área abaixo e realize a importação.</p>
+        <div nz-col nzSpan="24">
+            <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="ComprovanteImage" [nzBeforeUpload]="beforeUploadComprovante">
+                <p class="ant-upload-drag-icon">
+                    <i nz-icon nzType="inbox"></i>
+                </p>
+                <p class="ant-upload-text">Clique ou arraste a imagem para a area de upload</p>
+                <p class="ant-upload-hint">
+                    Realize a importação do comprovante
+                </p>
+            </nz-upload>
+        </div>
+
+    </div>
+
+    <!-- STEP 4 -->
+    <div nz-col nzSpan="24" *ngIf="current === 3" style="margin-bottom: 30px;">
+        <img src="../../../assets/images/concluido.png" style="max-width: 400px; display: block; margin: 0 auto; margin-top: 30px" alt="">
+        <p style="font-size: 25px; text-align: center; margin-top: 24px; margin-bottom: 0px;">Digitalização Concluída!</p>
+        <p style="color: gray; text-align: center; margin-top: 0px;">A digitalização da autorização foi concluída com sucesso.</p>
+        <button nz-button nzType="primary" (click)="concluded()" style="display: block; margin: 0 auto; margin-top: 20px;" (click)="concluded">Fechar</button>
+    </div>
+
+    <div nz-col nzSpan="12" *ngIf="current !== 3">
+        <button nz-button nzType="primary" [nzLoading]="loadingButton" [disabled]="current === 0" (click)="backStep()">
+            <i nz-icon nzType="left"></i>
+            Voltar
+        </button>
+    </div>
+    <div nz-col nzSpan="12" *ngIf="current !== 3">
+        <button nz-button [nzLoading]="loadingButton" style="float: right;" nzType="primary" (click)="nextStep()">
+            Próximo
+            <i nz-icon nzType="right"></i>
+        </button>
+    </div>
+</div>

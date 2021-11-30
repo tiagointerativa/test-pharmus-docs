@@ -1,0 +1,37 @@
+<div nz-row [nzGutter]="{ md: 24 }" nzJustify="center" nzAlign="middle" style="margin-top: 50px;">
+
+    <div nz-col nzMd="10" nzXs="24" style="max-width: 400px;">
+        <div>
+            <img src="../assets/images/logomarca.png" class="logomarca" style="width:80%" alt="logomarca">
+
+            <form nzLayout="vertical" style="margin-top:20px!important;" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+                <nz-form-item>
+                    <label for="">E-mail:</label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Informe um e-mail válido!">
+
+                        <nz-input-group nzPrefixIcon="user">
+
+                            <input type="email" nz-input formControlName="email" placeholder="Digite o seu e-mail" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <nz-form-item>
+                    <label for="">Senha:</label>
+                    <nz-form-control nzHasFeedback nzErrorTip="Esse campo é obrigatório!">
+
+                        <nz-input-group nzPrefixIcon="lock">
+                            <input type="password" nz-input formControlName="password" placeholder="Senha" />
+                        </nz-input-group>
+                    </nz-form-control>
+                </nz-form-item>
+                <button nz-button nzBlock class="login-form-button login-form-margin" [nzType]="'primary'">Acessar</button>
+
+                <div nz-row class="login-form-margin" style="margin-top:10px;">
+                    <div nz-col [nzSpan]="24">
+                        <a class="login-form-forgot" [routerLink]="['/login/reset/password']" routerLinkActive="router-link-active">Esqueci minha senha</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

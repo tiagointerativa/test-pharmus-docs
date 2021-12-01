@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
   loading = false;
-  isVisibleImportImages = false;
+  isVisibleImportImages = true;
 
   isVisibleImportAutorizacao = false;
   numAutorizacao: any = '';

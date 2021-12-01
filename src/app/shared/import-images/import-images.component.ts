@@ -1,6 +1,6 @@
-import { Component, EventEmitter, OnInit, Output,AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import {WebcamImage} from 'ngx-webcam';
-import {Subject, Observable} from 'rxjs';
+import { Component, EventEmitter, OnInit, Output, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { WebcamImage, WebcamInitError } from 'ngx-webcam';
+import { Subject, Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
 import { Router } from '@angular/router';
 import { NzMessageService } from 'ng-zorro-antd/message';
@@ -34,15 +34,20 @@ function b64toArrayBuffer(dataURI: any) {
 })
 export class ImportImagesComponent implements OnInit {
   current = 0;
-  receitaImage: NzUploadFile[] = [];
-  documentoImage: NzUploadFile[] = [];
-  ComprovanteImage: NzUploadFile[] = [];
   data: any = [];
   loadingButton = false;
   @Output() done = new EventEmitter();
 
-  public webcamImage: any;
+  //Desktop
+  receitaImage: NzUploadFile[] = [];
+  documentoImage: NzUploadFile[] = [];
+  ComprovanteImage: NzUploadFile[] = [];
+
+  //Mobile
+  public webcamImage: any = null;
   private trigger: Subject<void> = new Subject<void>();
+  errorAccessCamera = false;
+  deviceId: any = null;
 
   beforeUploadReceita = (file: NzUploadFile): boolean => {
     this.receitaImage = this.receitaImage.concat(file);
@@ -73,10 +78,10 @@ export class ImportImagesComponent implements OnInit {
       this.data['documento'] = base64.split(',')[1];
       this.loadingButton = true;
       setTimeout(() => {
-      this.notification.success('Documento Importado', 'O documento foi importada com sucesso!');
-      this.nextStep();
-      this.loadingButton = false;
-    }, 1000);
+        this.notification.success('Documento Importado', 'O documento foi importada com sucesso!');
+        this.nextStep();
+        this.loadingButton = false;
+      }, 1000);
     });
     return false;
   };
@@ -91,10 +96,10 @@ export class ImportImagesComponent implements OnInit {
       this.data['comprovante'] = base64.split(',')[1];
       this.loadingButton = true;
       setTimeout(() => {
-      this.notification.success('Comprovante Importando', 'O comprovante foi importada com sucesso!');
-      this.nextStep();
-      this.loadingButton = false;
-    }, 1000);
+        this.notification.success('Comprovante Importando', 'O comprovante foi importada com sucesso!');
+        this.nextStep();
+        this.loadingButton = false;
+      }, 1000);
     });
     return false;
   };
@@ -109,24 +114,62 @@ export class ImportImagesComponent implements OnInit {
 
   triggerSnapshot(): void {
     this.trigger.next();
-   }
-
-  nextStep() {
-    if(this.current === 2 && (this.data['documento'] === undefined || this.data['receita'] === undefined || this.data['comprovante'] === undefined)){
-      this.notification.warning('OPS! Importações Pendente', 'Ainda existe importação pendente de ser realizada.')
-    }else if (this.current < 3) {
-      this.current++;
-    }
   }
 
   handleImage(webcamImage: WebcamImage): void {
     console.info('Saved webcam image', webcamImage);
     this.webcamImage = webcamImage;
-   }
+  }
+
+  handleInitError(error: WebcamInitError): void {
+    if (error.mediaStreamError && error.mediaStreamError.name === "NotAllowedError") {
+      console.warn("Camera access was not allowed by user!");
+      this.errorAccessCamera = true;
+    }
+  }
+
+  public cameraWasSwitched(deviceId: string): void {
+    console.log('active device: ' + deviceId);
+    this.deviceId = deviceId;
+  }
+
+
+  reloadCamera() {
+    this.errorAccessCamera = false;
+    this.ngOnInit();
+  }
 
   public get triggerObservable(): Observable<void> {
     return this.trigger.asObservable();
-   }
+  }
+
+  nextStep() {
+    if (this.current === 2 && (this.data['documento'] === undefined || this.data['receita'] === undefined || this.data['comprovante'] === undefined)) {
+      this.notification.warning('OPS! Importações Pendente!', 'Ainda existe importação a ser realizada.')
+    } else if (this.current < 3) {
+      this.current++;
+    }
+  }
+
+  deleteImage() {
+    setTimeout(() => {
+      this.webcamImage = null;
+    }, 1000);
+    
+  }
+
+  saveImage() {
+    if(this.current === 0){
+      this.data['receita'] = this.webcamImage?.imageAsDataUrl;
+    }else if(this.current === 1){
+      this.data['documento'] = this.webcamImage?.imageAsDataUrl;
+    }else if(this.current === 2){
+      this.data['comprovante'] = this.webcamImage?.imageAsDataUrl;
+    }
+    this.nextStep();
+    this.webcamImage = null;
+    
+  }
 
   backStep() {
     if (this.current > 0) {
@@ -135,14 +178,14 @@ export class ImportImagesComponent implements OnInit {
   }
 
   onIndexChange(current: number): void {
-    if(this.current === 3){
+    if (this.current === 3) {
       this.notification.warning('Digitalização já concluída', 'Não é possível retornar aos passos anteriores.')
-    }else if(current !== 3){
-      this.current = current;      
+    } else if (current !== 3) {
+      this.current = current;
     }
   }
 
-  concluded(){
+  concluded() {
     this.done.emit(true);
   }
 

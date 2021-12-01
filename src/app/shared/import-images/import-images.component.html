@@ -29,8 +29,41 @@
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação da Receita
         </p>
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, clique na área abaixo e realize a importação.</p>
-        <div nz-col nzSpan="24">
-            <webcam [height]="400" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"></webcam>
+        <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <!-- Mensagens de Erros-->
+            <div *ngIf="!errorAccessCamera" style="z-index: -9999; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+                <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
+                <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
+                </p>
+            </div>
+            <nz-result nzStatus="warning" *ngIf="errorAccessCamera" nzTitle="O acesso à câmera não foi permitido!" nzSubTitle="Verifique as permissões do seu navegador e tente novamente.">
+                <div nz-result-extra>
+                    <button nz-button nzType="primary" (click)="reloadCamera()">Tentar Novamente</button>
+                </div>
+            </nz-result>
+
+            <!-- Upload via Webcam -->
+            <div nz-row nzGutter="8">
+                <div nz-col nzSpan="24">
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                        nzTheme="outline"></i> Tirar Foto</button>
+                </div>
+                <div nz-col nzSpan="24">
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                </div>
+                <div nz-col nzSpan="8">
+
+                </div>
+                <div nz-col nzSpan="16">
+
+                </div>
+            </div>
+        </div>
+        <div nz-col nzSpan="24" class="hide-xs">
+            <!-- Upload via input -->
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="receitaImage" [nzBeforeUpload]="beforeUploadReceita">
                 <p class="ant-upload-drag-icon">
                     <i nz-icon nzType="inbox"></i>
@@ -48,7 +81,40 @@
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Documento
         </p>
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você realize a importação do documento, clique na área abaixo e realize a importação.</p>
-        <div nz-col nzSpan="24">
+        <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <!-- Mensagens de Erros-->
+            <div *ngIf="!errorAccessCamera" style="z-index: -9999; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+                <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
+                <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
+                </p>
+            </div>
+            <nz-result nzStatus="warning" *ngIf="errorAccessCamera" nzTitle="O acesso à câmera não foi permitido!" nzSubTitle="Verifique as permissões do seu navegador e tente novamente.">
+                <div nz-result-extra>
+                    <button nz-button nzType="primary" (click)="reloadCamera()">Tentar Novamente</button>
+                </div>
+            </nz-result>
+
+            <!-- Upload via Webcam -->
+            <div nz-row nzGutter="8">
+                <div nz-col nzSpan="24">
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                        nzTheme="outline"></i> Tirar Foto</button>
+                </div>
+                <div nz-col nzSpan="24">
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                </div>
+                <div nz-col nzSpan="8">
+
+                </div>
+                <div nz-col nzSpan="16">
+
+                </div>
+            </div>
+        </div>
+        <div nz-col nzSpan="24" class="hide-xs">
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="documentoImage" [nzBeforeUpload]="beforeUploadDocumento">
                 <p class="ant-upload-drag-icon">
                     <i nz-icon nzType="inbox"></i>
@@ -66,7 +132,40 @@
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Comprovante
         </p>
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você importe o comprovante, clique na área abaixo e realize a importação.</p>
-        <div nz-col nzSpan="24">
+        <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <!-- Mensagens de Erros-->
+            <div *ngIf="!errorAccessCamera" style="z-index: -9999; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+                <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
+                <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
+                </p>
+            </div>
+            <nz-result nzStatus="warning" *ngIf="errorAccessCamera" nzTitle="O acesso à câmera não foi permitido!" nzSubTitle="Verifique as permissões do seu navegador e tente novamente.">
+                <div nz-result-extra>
+                    <button nz-button nzType="primary" (click)="reloadCamera()">Tentar Novamente</button>
+                </div>
+            </nz-result>
+
+            <!-- Upload via Webcam -->
+            <div nz-row nzGutter="8">
+                <div nz-col nzSpan="24">
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                        nzTheme="outline"></i> Tirar Foto</button>
+                </div>
+                <div nz-col nzSpan="24">
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                </div>
+                <div nz-col nzSpan="8">
+
+                </div>
+                <div nz-col nzSpan="16">
+
+                </div>
+            </div>
+        </div>
+        <div nz-col nzSpan="24" class="hide-xs">
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="ComprovanteImage" [nzBeforeUpload]="beforeUploadComprovante">
                 <p class="ant-upload-drag-icon">
                     <i nz-icon nzType="inbox"></i>
@@ -83,18 +182,20 @@
     <!-- STEP 4 -->
     <div nz-col nzSpan="24" *ngIf="current === 3" style="margin-bottom: 30px;">
         <img src="../../../assets/images/concluido.png" style="max-width: 400px; display: block; margin: 0 auto; margin-top: 30px" alt="">
-        <p style="font-size: 25px; text-align: center; margin-top: 24px; margin-bottom: 0px;">Digitalização Concluída!</p>
-        <p style="color: gray; text-align: center; margin-top: 0px;">A digitalização da autorização foi concluída com sucesso.</p>
+        <p style="font-size: 25px; text-align: center; margin-top: 24px; margin-bottom: 0px;">Digitalização Concluída!
+        </p>
+        <p style="color: gray; text-align: center; margin-top: 0px;">A digitalização da autorização foi concluída com sucesso.
+        </p>
         <button nz-button nzType="primary" (click)="concluded()" style="display: block; margin: 0 auto; margin-top: 20px;" (click)="concluded">Fechar</button>
     </div>
 
-    <div nz-col nzSpan="12" *ngIf="current !== 3">
+    <div nz-col nzSpan="12" *ngIf="current !== 3" class="hide-xs">
         <button nz-button nzType="primary" [nzLoading]="loadingButton" [disabled]="current === 0" (click)="backStep()">
             <i nz-icon nzType="left"></i>
             Voltar
         </button>
     </div>
-    <div nz-col nzSpan="12" *ngIf="current !== 3">
+    <div nz-col nzSpan="12" *ngIf="current !== 3" class="hide-xs">
         <button nz-button [nzLoading]="loadingButton" style="float: right;" nzType="primary" (click)="nextStep()">
             Próximo
             <i nz-icon nzType="right"></i>

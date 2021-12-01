@@ -45,14 +45,14 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
-                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
                 </div>
                 <div nz-col nzSpan="24">
-                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
-                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
-                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 300px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 300px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 300px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
                 </div>
                 <div nz-col nzSpan="8">
 
@@ -97,14 +97,14 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
-                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
                 </div>
                 <div nz-col nzSpan="24">
-                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
-                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
-                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 300px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 300px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 300px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
                 </div>
                 <div nz-col nzSpan="8">
 
@@ -148,14 +148,14 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="400" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
-                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 400px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
                 </div>
                 <div nz-col nzSpan="24">
-                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 400px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
-                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 400px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
-                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 400px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
+                    <img *ngIf="webcamImage !== null" [src]="webcamImage?.imageAsDataUrl" style="max-width: 300px; margin-bottom: 20px; display: block; margin: 0 auto; text-align: center;" />
+                    <button *ngIf="webcamImage !== null" (click)="saveImage()" nzSize="large" nz-button nzType="primary" style="width: 300px; background-color: #2ecc71; border-color: #27ae60; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="like" nzTheme="outline"></i>  Gostei!</button>
+                    <button *ngIf="webcamImage !== null" (click)="deleteImage()" nz-button nzDanger nzType="dashed" style="width: 300px; display: block; margin: 0 auto; margin-top: 10px;"><i nz-icon nzType="delete" nzTheme="outline"></i> Excluir!</button>
                 </div>
                 <div nz-col nzSpan="8">
 

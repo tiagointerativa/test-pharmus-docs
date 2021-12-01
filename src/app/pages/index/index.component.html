@@ -1,26 +1,30 @@
-<div class="site-page-header-ghost-wrapper">
-    <nz-page-header style="margin-left: 0px; padding-left: 0px;" [nzGhost]="false">
-        <nz-page-header-title>Olá, Tiago Parente!</nz-page-header-title> <br>
-        <nz-page-header-subtitle>Seja bem vindo</nz-page-header-subtitle>
-        <nz-page-header-extra>
-            <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar Página</button>
-            <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização</button>
-        </nz-page-header-extra>
-    </nz-page-header>
-    <p style="margin-bottom: 40px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização.
-    </p>
-</div>
-
-<div nz-row>
+<div nz-row nzGutter="8">
+    <div nz-col nzSpan="24">
+        <div class="site-page-header-ghost-wrapper">
+            <nz-page-header style="margin-left: 0px; padding-left: 0px;" [nzGhost]="false">
+                <nz-page-header-title>Olá, Tiago Parente!</nz-page-header-title> <br>
+                <nz-page-header-subtitle class="hide-xs">Seja bem vindo</nz-page-header-subtitle>
+                <nz-page-header-extra class="hide-xs">
+                    <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar Página</button>
+                    <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização</button>
+                </nz-page-header-extra>
+            </nz-page-header>
+            <p style="margin-bottom: 30px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização.
+            </p>
+        </div>
+    </div>
+    <div nz-col nzSpan="24" class="hide-lg">
+        <button nz-button nzType="dashed" style="margin-bottom: 20px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização Manualmente</button>
+    </div>
     <div nz-col nzMd="24" nzXs="24">
-        <nz-table #basicTable [nzLoading]="loading" [nzData]="listOfData">
+        <nz-table #basicTable nzSize="small" [nzLoading]="loading" [nzData]="listOfData">
             <thead>
                 <tr>
                     <th class="hide-lg">Dados da Autorização</th>
                     <th class="hide-xs">Data da Venda</th>
                     <th class="hide-xs">Nº da Autorização</th>
                     <th class="hide-xs">Comprador</th>
-                    <th style="text-align: center;">Operação</th>
+                    <th style="text-align: center;" class="hide-xs">Operação</th>
                 </tr>
             </thead>
             <tbody>
@@ -29,13 +33,18 @@
                     <td class="hide-xs">{{data.numero_autorizacao}}</td>
                     <td class="hide-xs">{{data.comprador}}</td>
                     <td class="hide-lg">
-                        {{ data.numero_autorizacao }} <br>
-                        <span style="color: gray"><i nz-icon nzType="calendar" class="icon" nzTheme="outline"></i>
-                            {{data.data_venda | date:'dd/MM/yyyy'}}</span> <br>
+                        <strong>Autorização: </strong> {{ data.numero_autorizacao }} <br>
+                        <span style="color: gray;"><i nz-icon nzType="calendar" class="icon" nzTheme="outline"></i>
+                            {{data.data_venda | date:'dd/MM/yyyy'}}</span> -
                         <span style="color: gray"><i nz-icon nzType="user" class="icon" nzTheme="outline"></i>
                             {{data.comprador}}</span>
+                        <button style="margin-top: 10px; margin-bottom: 10px;" nzBlock="" nz-button nzType="primary" (click)="scan(data.numero_autorizacao)">
+                                <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
+                                Digitalizar
+                            </button>
+
                     </td>
-                    <td style="text-align:center;">
+                    <td style="text-align:center;" class="hide-xs">
                         <button nz-button nzType="primary" (click)="scan(data.numero_autorizacao)">
                             <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
                             Digitalizar

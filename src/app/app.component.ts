@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
-
+import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -13,9 +13,23 @@ export class AppComponent {
   cnpj = environment.cnpj;
   versao = environment.versao;
   
-  constructor(){
+  constructor(
+    private router: Router
+  ){
+    router.events.forEach((event) => {
+      if (event instanceof NavigationStart) {
+        if (event['url'].substring(0, 6) == '/login') {
+          this.isLogged = false;
+        }else{
+          this.isLogged = true;
+        }
+      }
+    });
+
     if(localStorage.getItem('token')){
       this.isLogged = true;
+    }else{
+      this.router.navigate(['login']);
     }
   }
 

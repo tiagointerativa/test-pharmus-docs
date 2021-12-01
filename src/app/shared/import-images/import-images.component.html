@@ -28,8 +28,9 @@
     <div nz-col nzSpan="24" *ngIf="current === 0" style="margin-bottom: 30px;">
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação da Receita
         </p>
-        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, clique na área abaixo e realize a importação.</p>
+
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, tire uma foto para prosseguir.</p>
             <!-- Mensagens de Erros-->
             <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
@@ -64,6 +65,7 @@
             </div>
         </div>
         <div nz-col nzSpan="24" class="hide-xs">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, clique na área abaixo e realize a importação.</p>
             <!-- Upload via input -->
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="receitaImage" [nzBeforeUpload]="beforeUploadReceita">
                 <p class="ant-upload-drag-icon">
@@ -81,8 +83,9 @@
     <div nz-col nzSpan="24" *ngIf="current === 1" style="margin-bottom: 30px;">
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Documento
         </p>
-        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você realize a importação do documento, clique na área abaixo e realize a importação.</p>
+
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você tire uma foto do documento.</p>
             <!-- Mensagens de Erros-->
             <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
@@ -117,6 +120,7 @@
             </div>
         </div>
         <div nz-col nzSpan="24" class="hide-xs">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você realize a importação do documento, clique na área abaixo e realize a importação.</p>
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="documentoImage" [nzBeforeUpload]="beforeUploadDocumento">
                 <p class="ant-upload-drag-icon">
                     <i nz-icon nzType="inbox"></i>
@@ -133,8 +137,9 @@
     <div nz-col nzSpan="24" *ngIf="current === 2" style="margin-bottom: 30px;">
         <p style="font-size: 24px; text-align: center; margin-top: 35px; margin-bottom: 7px!important;">Importação do Comprovante
         </p>
-        <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você importe o comprovante, clique na área abaixo e realize a importação.</p>
+
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você tire uma foto do comprovante.</p>
             <!-- Mensagens de Erros-->
             <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
@@ -169,6 +174,7 @@
             </div>
         </div>
         <div nz-col nzSpan="24" class="hide-xs">
+            <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você importe o comprovante, clique na área abaixo e realize a importação.</p>
             <nz-upload nzAccept=".png,.jpg, .jpeg" nzShowUploadList="false" nzType="drag" class="upload-file" nzMultiple="false" [nzFileList]="ComprovanteImage" [nzBeforeUpload]="beforeUploadComprovante">
                 <p class="ant-upload-drag-icon">
                     <i nz-icon nzType="inbox"></i>

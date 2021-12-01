@@ -1,3 +1,9 @@
 export const environment = {
-  production: true
+  production: true,
+  versao: '1.0.0',
+
+  //Dados da Empresa
+  nome_fantasia: 'Pharmus',
+  razao_social: 'Pharmus',
+  cnpj: '04.196.349/0001-00'
 };

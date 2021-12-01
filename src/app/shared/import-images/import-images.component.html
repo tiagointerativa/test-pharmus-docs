@@ -31,7 +31,7 @@
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">O primeiro passo será importar a receita, clique na área abaixo e realize a importação.</p>
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
             <!-- Mensagens de Erros-->
-            <div *ngIf="!errorAccessCamera" style="z-index: -1; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+            <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
                 <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
                 </p>
@@ -45,7 +45,7 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" [videoOptions]="{width: {min: 1280, ideal: 1920}, height: {min: 720, ideal: 1080}, facingMode: { exact: 'environment' }}" style="display: block; margin: 0 auto; text-align: center;"
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" [videoOptions]="{width: {min: 1280, ideal: 1920}, height: {min: 720, ideal: 1080}, facingMode: { ideal: 'environment' }}" style="display: block; margin: 0 auto; text-align: center;"
                         [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
                     <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
@@ -84,7 +84,7 @@
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Agora preciso que você realize a importação do documento, clique na área abaixo e realize a importação.</p>
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
             <!-- Mensagens de Erros-->
-            <div *ngIf="!errorAccessCamera" style="z-index: -9999; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+            <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
                 <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
                 </p>
@@ -98,7 +98,8 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" [videoOptions]="{width: {min: 1280, ideal: 1920}, height: {min: 720, ideal: 1080}, facingMode: { ideal: 'environment' }}" style="display: block; margin: 0 auto; text-align: center;"
+                        [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
                     <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
                 </div>
@@ -135,7 +136,7 @@
         <p style="text-align: center; margin-top: 8px; margin-bottom: 25px;">Para finalizar preciso que você importe o comprovante, clique na área abaixo e realize a importação.</p>
         <div nz-col nzSpan="24" class="hide-lg" style="min-height: 250px;">
             <!-- Mensagens de Erros-->
-            <div *ngIf="!errorAccessCamera" style="z-index: -9999; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
+            <div *ngIf="!errorAccessCamera" style="z-index: 0; margin: 0 auto; display: block; position: absolute; text-align: center;  left: 0; right: 0; margin-top: 50px;">
                 <nz-spin nzSimple [nzSize]="'large'" style="text-align: center;"></nz-spin>
                 <p style="text-align: center; color: gray; margin-top: 20px;">Aguardando permissão para iniciar a câmera...
                 </p>
@@ -149,7 +150,8 @@
             <!-- Upload via Webcam -->
             <div nz-row nzGutter="8">
                 <div nz-col nzSpan="24">
-                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" style="display: block; margin: 0 auto; text-align: center;" [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
+                    <webcam (cameraSwitched)="cameraWasSwitched($event)" *ngIf="!errorAccessCamera && webcamImage === null" [width]="300" [videoOptions]="{width: {min: 1280, ideal: 1920}, height: {min: 720, ideal: 1080}, facingMode: { ideal: 'environment' }}" style="display: block; margin: 0 auto; text-align: center;"
+                        [trigger]="triggerObservable" (initError)="handleInitError($event)" (imageCapture)="handleImage($event)"></webcam>
                     <button nz-button *ngIf="deviceId !== null && webcamImage === null" (click)="triggerSnapshot()" style="width: 300px; margin: 0 auto; display: block;" nzType="primary"><i nz-icon nzType="camera"
                         nzTheme="outline"></i> Tirar Foto</button>
                 </div>

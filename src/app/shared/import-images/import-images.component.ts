@@ -7,7 +7,7 @@ import { NzMessageService } from 'ng-zorro-antd/message';
 import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { formatDate } from "@angular/common";
-
+import { DeviceDetectorService } from 'ngx-device-detector';
 function getBase64(file: any): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -37,6 +37,7 @@ export class ImportImagesComponent implements OnInit {
   data: any = [];
   loadingButton = false;
   @Output() done = new EventEmitter();
+  modeCamera = false;
 
   //Desktop
   receitaImage: NzUploadFile[] = [];
@@ -107,9 +108,14 @@ export class ImportImagesComponent implements OnInit {
   constructor(
     private notification: NzNotificationService,
     private router: Router,
-  ) { }
+    private deviceService: DeviceDetectorService
+  ) {
+   }
 
   ngOnInit(): void {
+    if(this.deviceService.isMobile()){
+      this.modeCamera = true;
+    }
   }
 
   triggerSnapshot(): void {
@@ -145,7 +151,17 @@ export class ImportImagesComponent implements OnInit {
 
   nextStep() {
     if (this.current === 2 && (this.data['documento'] === undefined || this.data['receita'] === undefined || this.data['comprovante'] === undefined)) {
-      this.notification.warning('OPS! Importações Pendente!', 'Ainda existe importação a ser realizada.')
+      if(this.data['receita'] === undefined){
+        
+        this.notification.warning('Receita não importada!', 'Você ainda não realizou a importação da receita.');
+        this.current = 0;
+      }else if(this.data['documento'] === undefined){
+        this.notification.warning('Documento do Comprador não importado!', 'Você ainda não realizou a importação do documento do comprador.');
+        this.current = 1;
+      }else if(this.data['comprovante'] === undefined){
+        this.notification.warning('Comprovante da Venda não importada!', 'Você ainda não realizou a importação do comprovante da venda.');
+        this.current = 2;
+      }
     } else if (this.current < 3) {
       this.current++;
     }
@@ -189,4 +205,7 @@ export class ImportImagesComponent implements OnInit {
     this.done.emit(true);
   }
 
+  toggleModeCamera(){
+    this.modeCamera = !this.modeCamera;
+  }
 }

@@ -11,3 +11,7 @@
         display: none;
     }
 }
+
+.ant-modal {
+    top: 5px!important;
+}

@@ -6,15 +6,15 @@
                 <nz-page-header-subtitle class="hide-xs">Seja bem vindo</nz-page-header-subtitle>
                 <nz-page-header-extra class="hide-xs">
                     <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar Página</button>
-                    <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização</button>
+                    <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não Encontrei uma Autorização</button>
                 </nz-page-header-extra>
             </nz-page-header>
-            <p style="margin-bottom: 30px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização.
+            <p style="margin-bottom: 30px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização do farmácia popular.
             </p>
         </div>
     </div>
     <div nz-col nzSpan="24" class="hide-lg">
-        <button nz-button nzType="dashed" style="margin-bottom: 20px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="download" nzTheme="outline"></i> Importar Autorização Manualmente</button>
+        <button nz-button nzType="dashed" style="margin-bottom: 20px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não Encontrei uma Autorização</button>
     </div>
     <div nz-col nzMd="24" nzXs="24">
         <nz-table #basicTable nzSize="small" [nzLoading]="loading" [nzData]="listOfData">
@@ -57,7 +57,7 @@
 </div>
 
 <!-- Modal de digitalização -->
-<nz-modal [(nzVisible)]="isVisibleImportImages" nzWidth="860px" nzCentered="true" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="toggleModalImportImages()">
+<nz-modal [(nzVisible)]="isVisibleImportImages" nzWidth="860px" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="toggleModalImportImages()">
     <ng-template #modalTitle>Digitalização</ng-template>
 
     <ng-template #modalContent>

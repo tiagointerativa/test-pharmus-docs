@@ -36,6 +36,7 @@ export class IndexComponent implements OnInit {
 
   toggleModalImportImages(){
     this.isVisibleImportImages = !this.isVisibleImportImages;
+    this.isVisibleImportAutorizacao = false;
   }
 
   toggleModalImportAutorizacao(){

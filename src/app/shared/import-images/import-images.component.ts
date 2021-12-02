@@ -38,7 +38,7 @@ export class ImportImagesComponent implements OnInit {
   loadingButton = false;
   @Output() done = new EventEmitter();
   modeCamera = false;
-
+  isMobile = false;
   //Desktop
   receitaImage: NzUploadFile[] = [];
   documentoImage: NzUploadFile[] = [];
@@ -115,6 +115,7 @@ export class ImportImagesComponent implements OnInit {
   ngOnInit(): void {
     if(this.deviceService.isMobile()){
       this.modeCamera = true;
+      this.isMobile = true;
     }
   }
 

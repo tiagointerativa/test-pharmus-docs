@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -29,6 +29,9 @@ function b64toArrayBuffer(dataURI: any) {
 
 @Component({
   selector: 'app-import-images',
+  providers: [
+    { provide: Window, useValue: window }  
+  ],
   templateUrl: './import-images.component.html',
   styleUrls: ['./import-images.component.css']
 })
@@ -108,7 +111,8 @@ export class ImportImagesComponent implements OnInit {
   constructor(
     private notification: NzNotificationService,
     private router: Router,
-    private deviceService: DeviceDetectorService
+    private deviceService: DeviceDetectorService,
+    @Inject(Window) private window: Window,
   ) {
    }
 
@@ -120,12 +124,12 @@ export class ImportImagesComponent implements OnInit {
   }
 
   triggerSnapshot(): void {
-    window.scroll(0,0);
     this.trigger.next();
   }
 
   handleImage(webcamImage: WebcamImage): void {
     console.info('Saved webcam image', webcamImage);
+    this.scrollTop();
     this.webcamImage = webcamImage;
   }
 
@@ -137,6 +141,7 @@ export class ImportImagesComponent implements OnInit {
   }
 
   public cameraWasSwitched(deviceId: string): void {
+    this.scrollTop();
     console.log('active device: ' + deviceId);
     this.deviceId = deviceId;
   }
@@ -167,7 +172,7 @@ export class ImportImagesComponent implements OnInit {
     } else if (this.current < 3) {
       this.current++;
     }
-    window.scroll(0,0);
+    this.scrollTop();
   }
 
   deleteImage() {
@@ -178,8 +183,6 @@ export class ImportImagesComponent implements OnInit {
   }
 
   saveImage() {
-    window.scroll(0,0);
-    console.log(window);
     if(this.current === 0){
       this.data['receita'] = this.webcamImage?.imageAsDataUrl;
     }else if(this.current === 1){
@@ -212,5 +215,9 @@ export class ImportImagesComponent implements OnInit {
 
   toggleModeCamera(){
     this.modeCamera = !this.modeCamera;
+  }
+
+  scrollTop(){
+      this.window.document.getElementById('top')?.scrollIntoView();    
   }
 }

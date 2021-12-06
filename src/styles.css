@@ -4,6 +4,13 @@
     .hide-xs {
         display: none;
     }
+    nz-header {
+        position: fixed;
+        width: 100%;
+    }
+    .inner-content {
+        margin-top: 64px;
+    }
 }
 
 @media (min-width: 577px) {

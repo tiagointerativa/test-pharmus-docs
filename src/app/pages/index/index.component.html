@@ -1,26 +1,42 @@
 <div nz-row nzGutter="8">
-    <div nz-col nzSpan="24">
+    <div nz-col nzSpan="24" class="hide-xs">
+
         <div class="site-page-header-ghost-wrapper">
             <nz-page-header style="margin-left: 0px; padding-left: 0px;" [nzGhost]="false">
-                <nz-page-header-title>Olá, Tiago Parente!</nz-page-header-title> <br>
-                <nz-page-header-subtitle class="hide-xs">Seja bem vindo</nz-page-header-subtitle>
+                <nz-page-header-title class="hide-xs">Drogaria Pharmus</nz-page-header-title> <br>
+                <nz-page-header-subtitle class="hide-xs"> - Seja bem vindo</nz-page-header-subtitle>
                 <nz-page-header-extra class="hide-xs">
-                    <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar Página</button>
-                    <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não Encontrei uma Autorização</button>
+                    <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar
+                        Página</button>
+                    <button nz-button nzType="primary" (click)="toggleModalImportAutorizacao()"><i nz-icon
+                            nzType="plus-circle" nzTheme="outline"></i> Não Encontrei uma Autorização</button>
                 </nz-page-header-extra>
             </nz-page-header>
-            <p style="margin-bottom: 30px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização do farmácia popular.
+            <p style="margin-bottom: 15px; color:gray">Abaixo você encontrará a sua lista de autorizações pendentes para digitalização do farmácia popular.
             </p>
         </div>
     </div>
     <div nz-col nzSpan="24" class="hide-lg">
-        <button nz-button nzType="dashed" style="margin-bottom: 20px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não Encontrei uma Autorização</button>
+        <p style="text-align: center; font-size: 20px;"><strong>Drogaria Pharmus</strong></p>
+    </div>
+    <div nz-col nzSpan="24" style="margin-bottom: 15px;">
+        <nz-input-group nzSearch nzSize="large" class="hide-lg" [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input placeholder="Digite o nº da autorização ou o nome do comprador" />
+        </nz-input-group>
+        <nz-input-group nzSearch class="hide-xs" [nzAddOnAfter]="suffixIconButton">
+            <input type="text" nz-input placeholder="Digite o nº da autorização ou o nome do comprador" />
+        </nz-input-group>
+        <ng-template #suffixIconButton>
+            <button nz-button nzType="primary" class="hide-lg" nzSize="large" nzSearch><i nz-icon
+                    nzType="search"></i></button>
+            <button nz-button nzType="primary" class="hide-xs" nzSearch><i nz-icon nzType="search"></i></button>
+        </ng-template>
     </div>
     <div nz-col nzMd="24" nzXs="24">
         <nz-table #basicTable nzSize="small" [nzLoading]="loading" [nzData]="listOfData">
             <thead>
                 <tr>
-                    <th class="hide-lg">Dados da Autorização</th>
+                    <th class="hide-lg" style="text-align: center;">Autorizações Pendente</th>
                     <th class="hide-xs">Data da Venda</th>
                     <th class="hide-xs">Nº da Autorização</th>
                     <th class="hide-xs">Comprador</th>
@@ -32,16 +48,17 @@
                     <td class="hide-xs">{{data.data_venda | date:'dd/MM/yyyy'}}</td>
                     <td class="hide-xs">{{data.numero_autorizacao}}</td>
                     <td class="hide-xs">{{data.comprador}}</td>
-                    <td class="hide-lg">
+                    <td class="hide-lg" style="padding-top: 20px; padding-bottom: 20px;">
                         <strong>Autorização: </strong> {{ data.numero_autorizacao }} <br>
                         <span style="color: gray;"><i nz-icon nzType="calendar" class="icon" nzTheme="outline"></i>
                             {{data.data_venda | date:'dd/MM/yyyy'}}</span> -
                         <span style="color: gray"><i nz-icon nzType="user" class="icon" nzTheme="outline"></i>
                             {{data.comprador}}</span>
-                        <button style="margin-top: 10px; margin-bottom: 10px;" nzBlock="" nz-button nzType="primary" (click)="scan(data.numero_autorizacao)">
-                                <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
-                                Digitalizar
-                            </button>
+                        <button style="margin-top: -18px; float: right;  padding-left: 10px!important; margin-right: 10px!important;" nz-button nzSize="large" nzType="primary" (click)="scan(data.numero_autorizacao)">
+                            <i nz-icon nzType="camera"
+                                style="font-size: 20px!important; margin-top: 5px; margin-right: 10px;"
+                                nzTheme="outline"></i>
+                        </button>
 
                     </td>
                     <td style="text-align:center;" class="hide-xs">
@@ -54,23 +71,27 @@
             </tbody>
         </nz-table>
     </div>
+    <div nz-col nzSpan="24" class="hide-lg">
+        <button nz-button nzType="primary" nzSize="large" style="margin-bottom: 15px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não
+            Encontrei uma Autorização</button>
+    </div>
 </div>
 
 <!-- Modal de digitalização -->
-<nz-modal [(nzVisible)]="isVisibleImportImages" nzWidth="860px" [nzTitle]="modalTitle" [nzContent]="modalContent" [nzFooter]="null" (nzOnCancel)="toggleModalImportImages()">
-    <ng-template #modalTitle>Digitalização</ng-template>
+<nz-drawer [(nzVisible)]="isVisibleImportImages" nzTitle="Digitalização" nzHeight="100" nzPlacement="bottom" (nzOnClose)="toggleModalImportImages()">
+    <ng-container *nzDrawerContent>
+        <div style="margin-top: 25px;">
+            <app-import-images (done)="toggleModalImportImages()"></app-import-images>
+        </div>
 
-    <ng-template #modalContent>
-        <app-import-images (done)="toggleModalImportImages()"></app-import-images>
-    </ng-template>
-</nz-modal>
+    </ng-container>
+</nz-drawer>
 
 <!-- Modal de importação de autorizações (Manual)-->
-<nz-modal [(nzVisible)]="isVisibleImportAutorizacao" nzWidth="660px" [nzTitle]="modalTitleAutorizacao" [nzContent]="modalAutorizacao" [nzFooter]="null" nzCentered="true" (nzOnCancel)="toggleModalImportAutorizacao()">
-    <ng-template #modalTitleAutorizacao>Importação de Autorizações</ng-template>
-
-    <ng-template #modalAutorizacao>
-        <p style="font-size: 24px; text-align: center; margin-top: 0px; margin-bottom: 7px!important;z-index: 2222; position: relative;">Importação Manual de Autorizações</p>
+<nz-drawer [(nzVisible)]="isVisibleImportAutorizacao" nzTitle="Importação de Autorizações" nzHeight="100" nzCentered="true" nzPlacement="bottom" (nzOnClose)="toggleModalImportAutorizacao()">
+    <ng-container *nzDrawerContent>
+        <p style="font-size: 24px; text-align: center; margin-top: 30px; margin-bottom: 7px!important;z-index: 2222; position: relative;">
+            Importação Manual de Autorizações</p>
         <!--<img src="../../../assets/images/search_file.gif" style="max-width: 350px; display: block; margin: 0 auto; margin-top: -30px;" alt="">-->
 
         <p style="text-align: center;">Você pode utilizar essa opção caso não tenha encontrado a autorização na listagem da tela inicial.</p>
@@ -80,5 +101,6 @@
         <ng-template #suffixButton>
             <button nz-button nzType="primary" nzSize="large" [disabled]="numAutorizacao.length === 0" nzSearch (click)="scan(numAutorizacao)">Importar</button>
         </ng-template>
-    </ng-template>
-</nz-modal>
+
+    </ng-container>
+</nz-drawer>

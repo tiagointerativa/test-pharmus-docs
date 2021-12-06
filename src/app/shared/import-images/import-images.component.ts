@@ -120,6 +120,7 @@ export class ImportImagesComponent implements OnInit {
   }
 
   triggerSnapshot(): void {
+    window.scroll(0,0);
     this.trigger.next();
   }
 
@@ -166,6 +167,7 @@ export class ImportImagesComponent implements OnInit {
     } else if (this.current < 3) {
       this.current++;
     }
+    window.scroll(0,0);
   }
 
   deleteImage() {
@@ -176,6 +178,8 @@ export class ImportImagesComponent implements OnInit {
   }
 
   saveImage() {
+    window.scroll(0,0);
+    console.log(window);
     if(this.current === 0){
       this.data['receita'] = this.webcamImage?.imageAsDataUrl;
     }else if(this.current === 1){

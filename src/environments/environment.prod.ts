@@ -1,6 +1,6 @@
 export const environment = {
   production: true,
-  versao: '1.0.0',
+  versao: '1.0.1',
 
   //Dados da Empresa
   nome_fantasia: 'Pharmus',

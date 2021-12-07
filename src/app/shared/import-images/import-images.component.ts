@@ -53,6 +53,8 @@ export class ImportImagesComponent implements OnInit {
   errorAccessCamera = false;
   deviceId: any = null;
 
+  //test
+  deferredPrompt: any;
   beforeUploadReceita = (file: NzUploadFile): boolean => {
     this.receitaImage = this.receitaImage.concat(file);
     this.receitaImage = this.receitaImage.slice(-1);
@@ -115,13 +117,11 @@ export class ImportImagesComponent implements OnInit {
     @Inject(Window) private window: Window,
   ) {
 
-    let deferredPrompt;
-
-window.addEventListener('beforeinstallprompt', (e) => {
+this.window.addEventListener('beforeinstallprompt', (e) => {
   // Prevent the mini-infobar from appearing on mobile
   e.preventDefault();
   // Stash the event so it can be triggered later.
-  deferredPrompt = e;
+  this.deferredPrompt = e;
   // Update UI notify the user they can install the PWA
   this.notification.info('Instale na area de trabalho!', 'Hello');
   // Optionally, send analytics event that PWA install promo was shown.
@@ -170,6 +170,7 @@ window.addEventListener('beforeinstallprompt', (e) => {
   }
 
   nextStep() {
+    this.deferredPrompt.prompt();
     if (this.current === 2 && (this.data['documento'] === undefined || this.data['receita'] === undefined || this.data['comprovante'] === undefined)) {
       if(this.data['receita'] === undefined){
         

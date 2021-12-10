@@ -141,6 +141,7 @@ export class IndexComponent implements OnInit {
     this.search = '';
     this.showCancelButton = false;
     this.fromNumber = 0;
+    this.listOfData = [];
     this.ngOnInit();
   }
 }

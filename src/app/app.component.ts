@@ -8,8 +8,8 @@ import { Router, NavigationEnd, NavigationStart } from '@angular/router';
 })
 export class AppComponent {
   isLogged = false;
-  razaoSocial = environment.razao_social;
-  nomeFantasia = environment.nome_fantasia;
+  razaoSocial = localStorage.getItem('razao_social');
+  nomeFantasia = localStorage.getItem('nome_fantasia');
   cnpj = environment.cnpj;
   versao = environment.versao;
   
@@ -22,6 +22,8 @@ export class AppComponent {
           this.isLogged = false;
         }else{
           this.isLogged = true;
+          this.razaoSocial = localStorage.getItem('razao_social');
+          this.nomeFantasia = localStorage.getItem('nome_fantasia');
         }
       }
     });

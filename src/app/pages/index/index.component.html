@@ -3,7 +3,7 @@
 
         <div class="site-page-header-ghost-wrapper">
             <nz-page-header style="margin-left: 0px; padding-left: 0px;" [nzGhost]="false">
-                <nz-page-header-title class="hide-xs">Drogaria Pharmus</nz-page-header-title> <br>
+                <nz-page-header-title class="hide-xs">{{nomeFantasia}}</nz-page-header-title> <br>
                 <nz-page-header-subtitle class="hide-xs"> - Seja bem vindo</nz-page-header-subtitle>
                 <nz-page-header-extra class="hide-xs">
                     <button nz-button (click)="refresh()"><i nz-icon nzType="reload" nzTheme="outline"></i> Atualizar
@@ -17,23 +17,41 @@
         </div>
     </div>
     <div nz-col nzSpan="24" class="hide-lg">
-        <p style="text-align: center; font-size: 20px;"><strong>Drogaria Pharmus</strong></p>
+        <p style="text-align: center; font-size: 20px;"><strong>{{nomeFantasia}}</strong></p>
     </div>
     <div nz-col nzSpan="24" style="margin-bottom: 15px;">
-        <nz-input-group nzSearch nzSize="large" class="hide-lg" [nzAddOnAfter]="suffixIconButton">
-            <input type="text" nz-input placeholder="Digite o nº da autorização ou o nome do comprador" />
-        </nz-input-group>
-        <nz-input-group nzSearch class="hide-xs" [nzAddOnAfter]="suffixIconButton">
-            <input type="text" nz-input placeholder="Digite o nº da autorização ou o nome do comprador" />
-        </nz-input-group>
+
+        <div>
+            <nz-input-group nzSearch nzSize="large" class="hide-lg" [nzAddOnAfter]="suffixIconButton" [nzAddOnBefore]="addOnBeforeTemplate">
+                <input type="text" nz-input [(ngModel)]="search" placeholder="Digite a sua pesquisa" />
+            </nz-input-group>
+
+            <nz-input-group nzSearch class="hide-xs" [nzAddOnAfter]="suffixIconButton" [nzAddOnBefore]="addOnBeforeTemplate">
+                <input type="text" nz-input [(ngModel)]="search" placeholder="Digite a sua pesquisa" />
+            </nz-input-group>
+
+            <ng-template #addOnBeforeTemplate>
+                <nz-select [ngModel]="typeFilter">
+                    <nz-option selected nzLabel="Nº da Autorização" nzValue="farmaciaPopularAutorizacaoNumero">
+                    </nz-option>
+                    <nz-option nzLabel="Nome do Comprador" nzValue="consumidorNome"></nz-option>
+                </nz-select>
+            </ng-template>
+        </div>
+
         <ng-template #suffixIconButton>
-            <button nz-button nzType="primary" class="hide-lg" nzSize="large" nzSearch><i nz-icon
+            <button nz-button nzType="primary" (click)="searchAutorizacoes()" class="hide-lg" nzSize="large" nzSearch><i
+                    nz-icon nzType="search"></i></button>
+            <button nz-button nzType="primary" (click)="hideCancelButton()" style="margin-left: 5px;" *ngIf="showCancelButton" nzDanger="" class="hide-lg" nzSearch><i nz-icon nzType="close"></i> </button>
+
+            <button nz-button nzType="primary" (click)="searchAutorizacoes()" class="hide-xs" nzSearch><i nz-icon
                     nzType="search"></i></button>
-            <button nz-button nzType="primary" class="hide-xs" nzSearch><i nz-icon nzType="search"></i></button>
+            <button nz-button nzType="primary" (click)="hideCancelButton()" style="margin-left: 5px;" *ngIf="showCancelButton" nzDanger="" class="hide-xs" nzSearch><i nz-icon nzType="close"></i> Cancelar
+                Pesquisa</button>
         </ng-template>
     </div>
     <div nz-col nzMd="24" nzXs="24">
-        <nz-table #basicTable nzSize="small" [nzLoading]="loading" [nzData]="listOfData">
+        <nz-table #basicTable nzSize="small" [nzLoading]="loading" [nzData]="listOfData" [nzFrontPagination]="false">
             <thead>
                 <tr>
                     <th class="hide-lg" style="text-align: center;">Autorizações Pendente</th>
@@ -45,15 +63,16 @@
             </thead>
             <tbody>
                 <tr *ngFor="let data of basicTable.data">
-                    <td class="hide-xs">{{data.data_venda | date:'dd/MM/yyyy'}}</td>
-                    <td class="hide-xs">{{data.numero_autorizacao}}</td>
-                    <td class="hide-xs">{{data.comprador}}</td>
+                    <td class="hide-xs">{{data.cadastradoDataHora | date:'dd/MM/yyyy'}}</td>
+                    <td class="hide-xs">{{data.farmaciaPopularAutorizacaoNumero}}</td>
+                    <td class="hide-xs">{{data.consumidorNome}}</td>
                     <td class="hide-lg" style="padding-top: 20px; padding-bottom: 20px;">
-                        <strong>Autorização: </strong> {{ data.numero_autorizacao }} <br>
+                        <strong>Autorização: </strong> {{ data.farmaciaPopularAutorizacaoNumero }} <br>
                         <span style="color: gray;"><i nz-icon nzType="calendar" class="icon" nzTheme="outline"></i>
-                            {{data.data_venda | date:'dd/MM/yyyy'}}</span> -
-                        <span style="color: gray"><i nz-icon nzType="user" class="icon" nzTheme="outline"></i>
-                            {{data.comprador}}</span>
+                            {{data.cadastradoDataHora | date:'dd/MM/yyyy'}}</span> -
+                        <span style="color: gray; padding-right: 60px;"><i nz-icon nzType="user" class="icon"
+                                nzTheme="outline"></i>
+                            {{data.consumidorNome}}</span>
                         <button style="margin-top: -18px; float: right;  padding-left: 10px!important; margin-right: 10px!important;" nz-button nzSize="large" nzType="primary" (click)="scan(data.numero_autorizacao)">
                             <i nz-icon nzType="camera"
                                 style="font-size: 20px!important; margin-top: 5px; margin-right: 10px;"
@@ -62,7 +81,7 @@
 
                     </td>
                     <td style="text-align:center;" class="hide-xs">
-                        <button nz-button nzType="primary" (click)="scan(data.numero_autorizacao)">
+                        <button nz-button nzType="primary" (click)="scan(data.id)">
                             <i nz-icon nzType="cloud-upload" nzTheme="outline"></i>
                             Digitalizar
                         </button>
@@ -71,6 +90,15 @@
             </tbody>
         </nz-table>
     </div>
+    <div nz-col nzSpan="24" class="hide-lg">
+        <button nz-button nzType="default" nzSize="large" [disabled]="disableButtonLoadingMore" style="margin-bottom: 15px;" nzBlock (click)="loadingMore()"><i nz-icon nzType="down-circle"
+                nzTheme="outline"></i> Carregar Mais</button>
+    </div>
+    <div nz-col nzSpan="8" nzOffset="8" class="hide-xs">
+        <button nz-button nzType="default" class="hide-xs" [disabled]="disableButtonLoadingMore" style="margin-bottom: 15px;" nzBlock (click)="loadingMore()"><i nz-icon nzType="down-circle"
+                nzTheme="outline"></i> Carregar Mais</button>
+    </div>
+
     <div nz-col nzSpan="24" class="hide-lg">
         <button nz-button nzType="primary" nzSize="large" style="margin-bottom: 15px;" nzBlock (click)="toggleModalImportAutorizacao()"><i nz-icon nzType="plus-circle" nzTheme="outline"></i> Não
             Encontrei uma Autorização</button>
@@ -81,7 +109,7 @@
 <nz-drawer [(nzVisible)]="isVisibleImportImages" nzTitle="Digitalização" nzHeight="100" nzPlacement="bottom" (nzOnClose)="toggleModalImportImages()">
     <ng-container *nzDrawerContent>
         <div style="margin-top: 25px;">
-            <app-import-images (done)="toggleModalImportImages()"></app-import-images>
+            <app-import-images [idVenda]="idVenda" (done)="toggleModalImportImages()"></app-import-images>
         </div>
 
     </ng-container>
@@ -99,7 +127,7 @@
             <input type="text" nz-input [(ngModel)]="numAutorizacao" placeholder="Digite o número da autorização" />
         </nz-input-group>
         <ng-template #suffixButton>
-            <button nz-button nzType="primary" nzSize="large" [disabled]="numAutorizacao.length === 0" nzSearch (click)="scan(numAutorizacao)">Importar</button>
+            <button nz-button nzType="primary" nzSize="large" [disabled]="numAutorizacao.length === 0" nzSearch (click)="importManual(numAutorizacao)">Importar</button>
         </ng-template>
 
     </ng-container>

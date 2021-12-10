@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output, AfterViewInit, ViewChild, ElementRef, Inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, AfterViewInit, ViewChild, ElementRef, Inject, Input } from '@angular/core';
 import { WebcamImage, WebcamInitError } from 'ngx-webcam';
 import { Subject, Observable } from 'rxjs';
 import { NzNotificationService } from 'ng-zorro-antd/notification';
@@ -8,6 +8,8 @@ import { NzUploadChangeParam } from 'ng-zorro-antd/upload';
 import { NzUploadFile } from 'ng-zorro-antd/upload';
 import { formatDate } from "@angular/common";
 import { DeviceDetectorService } from 'ngx-device-detector';
+import { VendaService } from 'src/app/services/venda.service';
+
 function getBase64(file: any): Promise<string | ArrayBuffer | null> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -30,18 +32,20 @@ function b64toArrayBuffer(dataURI: any) {
 @Component({
   selector: 'app-import-images',
   providers: [
-    { provide: Window, useValue: window }  
+    { provide: Window, useValue: window }
   ],
   templateUrl: './import-images.component.html',
   styleUrls: ['./import-images.component.css']
 })
 export class ImportImagesComponent implements OnInit {
   current = 0;
+  @Input() idVenda: any;
   data: any = [];
   loadingButton = false;
   @Output() done = new EventEmitter();
   modeCamera = false;
   isMobile = false;
+
   //Desktop
   receitaImage: NzUploadFile[] = [];
   documentoImage: NzUploadFile[] = [];
@@ -61,6 +65,7 @@ export class ImportImagesComponent implements OnInit {
       b64toArrayBuffer(result);
       let base64 = (<string>result);
       this.data['receita'] = base64.split(',')[1];
+      //this.data['receita'] = base64;
       this.loadingButton = true;
       setTimeout(() => {
         this.notification.success('Receita Importada', 'A receita foi importada com sucesso!');
@@ -80,6 +85,7 @@ export class ImportImagesComponent implements OnInit {
       b64toArrayBuffer(result);
       let base64 = (<string>result);
       this.data['documento'] = base64.split(',')[1];
+      //this.data['documento'] = base64;
       this.loadingButton = true;
       setTimeout(() => {
         this.notification.success('Documento Importado', 'O documento foi importada com sucesso!');
@@ -98,9 +104,10 @@ export class ImportImagesComponent implements OnInit {
       b64toArrayBuffer(result);
       let base64 = (<string>result);
       this.data['comprovante'] = base64.split(',')[1];
+      //this.data['comprovante'] = base64;
       this.loadingButton = true;
       setTimeout(() => {
-        this.notification.success('Comprovante Importando', 'O comprovante foi importada com sucesso!');
+        //this.notification.success('Comprovante Importando', 'O comprovante foi importada com sucesso!');
         this.nextStep();
         this.loadingButton = false;
       }, 1000);
@@ -113,11 +120,13 @@ export class ImportImagesComponent implements OnInit {
     private router: Router,
     private deviceService: DeviceDetectorService,
     @Inject(Window) private window: Window,
+    private vendaService: VendaService,
+    private message: NzMessageService,
   ) {
-   }
+  }
 
   ngOnInit(): void {
-    if(this.deviceService.isMobile()){
+    if (this.deviceService.isMobile()) {
       this.modeCamera = true;
       this.isMobile = true;
     }
@@ -158,41 +167,69 @@ export class ImportImagesComponent implements OnInit {
 
   nextStep() {
     if (this.current === 2 && (this.data['documento'] === undefined || this.data['receita'] === undefined || this.data['comprovante'] === undefined)) {
-      if(this.data['receita'] === undefined){
-        
+      if (this.data['receita'] === undefined) {
+
         this.notification.warning('Receita não importada!', 'Você ainda não realizou a importação da receita.');
         this.current = 0;
-      }else if(this.data['documento'] === undefined){
+      } else if (this.data['documento'] === undefined) {
         this.notification.warning('Documento do Comprador não importado!', 'Você ainda não realizou a importação do documento do comprador.');
         this.current = 1;
-      }else if(this.data['comprovante'] === undefined){
+      } else if (this.data['comprovante'] === undefined) {
         this.notification.warning('Comprovante da Venda não importada!', 'Você ainda não realizou a importação do comprovante da venda.');
         this.current = 2;
       }
     } else if (this.current < 3) {
-      this.current++;
+      if (this.current === 2) {
+        let id: any = this.message.loading('Enviando imagens...');
+        
+        this.sendImagem(this.data['receita'], null, false, '78ad7b08-e74f-4ad3-9434-c78e3780a2c5');
+        this.sendImagem(this.data['documento'], null, false, 'a496d7e4-8d62-4ef5-8f90-3626870ab41a');
+        this.sendImagem(this.data['comprovante'], id, true, '7607979e-0d87-4388-bc8b-df1b8667cfc1');
+      }else{
+        this.current++;
+      }
     }
     this.scrollTop();
+  }
+
+  private sendImagem(base64: any, message: any = null, prosseguir: any = false, idTipoDocumento: any){      
+      this.vendaService.addImage(this.idVenda, localStorage.getItem('idEmpresa'), idTipoDocumento, base64).subscribe((data: any) => {
+        message !== null ? this.message.remove(message) : null;
+                
+        if (prosseguir === true) {
+          this.vendaService.confirm(this.idVenda).subscribe((data: any) => {
+            this.current++;
+            if(message !== null){
+              this.message.remove(message);
+            }
+          }, (error: any) => {
+            this.message.error('Houve uma falha ao confirmar o envio das imagens, tente novamente mais tarde!');
+          });
+        }
+
+      },(error: any) => {
+        this.message.error('Houve uma falha ao confirmar o envio das imagens, tente novamente mais tarde!');
+      });
   }
 
   deleteImage() {
     setTimeout(() => {
       this.webcamImage = null;
     }, 1000);
-    
+
   }
 
   saveImage() {
-    if(this.current === 0){
+    if (this.current === 0) {
       this.data['receita'] = this.webcamImage?.imageAsDataUrl;
-    }else if(this.current === 1){
+    } else if (this.current === 1) {
       this.data['documento'] = this.webcamImage?.imageAsDataUrl;
-    }else if(this.current === 2){
+    } else if (this.current === 2) {
       this.data['comprovante'] = this.webcamImage?.imageAsDataUrl;
     }
     this.nextStep();
     this.webcamImage = null;
-    
+
   }
 
   backStep() {
@@ -213,11 +250,11 @@ export class ImportImagesComponent implements OnInit {
     this.done.emit(true);
   }
 
-  toggleModeCamera(){
+  toggleModeCamera() {
     this.modeCamera = !this.modeCamera;
   }
 
-  scrollTop(){
-      this.window.document.getElementById('top')?.scrollIntoView();    
+  scrollTop() {
+    this.window.document.getElementById('top')?.scrollIntoView();
   }
 }
